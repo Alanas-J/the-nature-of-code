@@ -3,7 +3,7 @@
 let walker;
 
 export function setup() {
-  createCanvas(640, 240);
+  createCanvas(640, 440);
   // Create the walker.
   walker = new Walker();
   background(255);
