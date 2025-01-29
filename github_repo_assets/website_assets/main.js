@@ -21,12 +21,18 @@ if (isRunningLocally) {
 }
 
 
-// Will need to add an onselect listener to the select
+// On select listener;
+const selectDropdown = document.getElementById('excercise-select');
+selectDropdown.onchange = (e) => {
+    console.log(e.target.value);
+}
+
 // Will need to populate the select options.
 
-const module1 = await import('/the-nature-of-code/chapter-0/alanas/0.1-walker.js')
 
-console.log(module1)
+
+// TEMPORARY CODE BELOW
+const module1 = await import('/the-nature-of-code/chapter-0/alanas/0.1-walker.js')
 window.setup = module1.setup;
 window.draw = module1.draw;
 
