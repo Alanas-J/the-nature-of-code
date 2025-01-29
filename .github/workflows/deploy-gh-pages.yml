@@ -1,5 +1,5 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: Deploy to GitHub Pages (repurposed from the Jekyll Deploy template workflow.)
 
 on:
   # Runs on pushes targeting the default branch
@@ -28,15 +28,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+
+      - name: Bundle GitHub Page Assets (Custom Bash by me)
+        run: |
+          mkdir -p github_page_files
+          mv index.html style.css the-nature-of-code github_page_files/
+          find the_nature_of_code -type f -name "*.js" | jq -R -s -c 'split("\n")[:-1]' > github_page_files/file_list.json
+
+
+      - name: Upload directory as a GitHub Page artefact
+        uses: actions/upload-pages-artifact@v3
         with:
-          source: ./
-          destination: ./_site
+          name: github-pages
+          path: github_page_files/
+          retention-days: 1
+        env:
+          GITHUB_PAGES: true
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages
+          path: github_page_files/
+          retention-days: 1
 
   # Deployment job
   deploy:
