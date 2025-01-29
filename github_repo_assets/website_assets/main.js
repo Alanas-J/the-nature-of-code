@@ -9,18 +9,6 @@ console.log('Checking if site is running locally (in local environments the scri
 
 let excerciseList;
 if (isRunningLocally) {
-    // Adding p5.js libraries from the project root path
-
-    const p5jsLib = document.createElement('script')
-    p5jsLib.src = '/libraries/p5.min.js'
-    document.head.appendChild(p5jsLib);
-
-    setTimeout(() => {
-        const p5jsSoundLib = document.createElement('script')
-        p5jsSoundLib.src = '/libraries/p5.sound.min.js'
-        document.head.appendChild(p5jsSoundLib);
-    }, 500)
-
     const response = await fetch('./local_file_list.json')
     excerciseList = await response.json()
 } else {
@@ -29,23 +17,36 @@ if (isRunningLocally) {
 }
 console.log('Excercise list:', excerciseList);
 
+// Adding p5.js libraries from the project root path
+const p5jsLib = document.createElement('script')
+p5jsLib.src =  isRunningLocally ? '/libraries/p5.min.js' : './libraries/p5.min.js'
+document.head.appendChild(p5jsLib);
+
+setTimeout(() => {
+    const p5jsSoundLib = document.createElement('script')
+    p5jsSoundLib.src = isRunningLocally ? '/libraries/p5.sound.min.js' : './libraries/p5.sound.min.js'
+    document.head.appendChild(p5jsSoundLib);
+}, 500)
+
+
+
 
 // ==============================================
 // Excerise Module import/caching logic.
 const importedExcercises = []
-async function getExcercise(excercise) {
+async function getExcercise(excercisePath) {
     // Module loading/caching logic
-    let excerciseModule = importedExcercises.find(excercise => excercise.name === excercise);
+    let excerciseModule = importedExcercises.find(excercise => excercise.name === excercisePath);
     if (!excerciseModule) {
         let importStr;
         if (isRunningLocally) {
-            importStr = '/' + excercise;
+            importStr = '/' + excercisePath;
         } else {
-            importStr = './' + excercise;
+            importStr = './' + excercisePath;
         }
 
         const module = await import(importStr);
-        excerciseModule = { name: excercise, module }; 
+        excerciseModule = { name: excercisePath, module }; 
         importedExcercises.push(excerciseModule);
         console.log(importedExcercises)
     }
