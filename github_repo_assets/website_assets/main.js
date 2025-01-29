@@ -1,11 +1,13 @@
 
 /* The entrypoint of this low-code, no-tooling JS website */
 
+// ==============================================
+// Code Init
 console.log('Main script started...');
 const isRunningLocally = window.location.hostname.includes('127.0.0.1') || window.location.hostname.includes('localhost')
-
 console.log('Checking if site is running locally (in local environments the script pathing is different):',  isRunningLocally)
 
+let excerciseList;
 if (isRunningLocally) {
     // Adding p5.js libraries from the project root path
 
@@ -18,32 +20,61 @@ if (isRunningLocally) {
         p5jsSoundLib.src = '/libraries/p5.sound.min.js'
         document.head.appendChild(p5jsSoundLib);
     }, 500)
+
+    const response = await fetch('./local_file_list.json')
+    excerciseList = await response.json()
+} else {
+    const response = await fetch('./file_list.json')
+    excerciseList = await response.json()
+}
+console.log('Excercise list:', excerciseList);
+
+
+// ==============================================
+// Excerise Module import/caching logic.
+const importedExcercises = []
+async function getExcercise(excercise) {
+    // Module loading/caching logic
+    let excerciseModule = importedExcercises.find(excercise => excercise.name === excercise);
+    if (!excerciseModule) {
+        let importStr;
+        if (isRunningLocally) {
+            importStr = '/' + excercise;
+        } else {
+            importStr = './' + excercise;
+        }
+
+        const module = await import(importStr);
+        excerciseModule = { name: excercise, module }; 
+        importedExcercises.push(excerciseModule);
+        console.log(importedExcercises)
+    }
+    return excerciseModule;
 }
 
 
-// On select listener;
+// ==============================================
+// On select listener + option population
 const selectDropdown = document.getElementById('excercise-select');
-selectDropdown.onchange = (e) => {
-    console.log(e.target.value);
+for (let excercise of excerciseList) {
+    const option = document.createElement('option');
+    option.value = excercise;
+    option.innerHTML = excercise;
+    selectDropdown.appendChild(option)
 }
 
-// Will need to populate the select options.
+selectDropdown.onchange = async (e) => {
+    const excerciseStr = e.target.value;
+    console.log('Swapping to: ', excerciseStr);
+    const excerciseModule = await getExcercise(excerciseStr);
 
+    // Loading modules.
+    window.setup = excerciseModule.module.setup;
+    window.draw = excerciseModule.module.draw;
+    setup()
+}
 
-
-// TEMPORARY CODE BELOW
-const module1 = await import('/the-nature-of-code/chapter-0/alanas/0.1-walker.js')
-window.setup = module1.setup;
-window.draw = module1.draw;
-
-
-
-setTimeout(async () => {
-    const module2 = await import('/the-nature-of-code/chapter-0/alanas/0.2-random-number-distribution.js')
-
-    clear();
-    window.setup = module2.setup;
-    window.draw = module2.draw;
-    setup();
-
-}, 15000)
+// Need to create a canvas on init, else p5.js won't init in the global context.
+window.setup = () => {
+    createCanvas(1,1)
+}
