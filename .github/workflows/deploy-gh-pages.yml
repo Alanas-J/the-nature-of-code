@@ -36,7 +36,9 @@ jobs:
         run: |
           mkdir -p github_page_files
           mv index.html style.css the-nature-of-code github_page_files/
-          find the_nature_of_code -type f -name "*.js" | jq -R -s -c 'split("\n")[:-1]' > github_page_files/file_list.json
+          find the-nature-of-code -type f -name "*.js" | jq -R -s -c 'split("\n")[:-1]' > github_page_files/file_list.json
+          echo 'Excercise code path json list file created. Contents:'
+          cat github_page_files/file_list.json
 
 
       - name: Upload directory as a GitHub Page artefact
