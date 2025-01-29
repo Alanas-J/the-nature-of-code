@@ -39,7 +39,7 @@ jobs:
           echo 'Excercise code path json list file created. Contents:'
           cat github_page_files/file_list.json
           echo 'Moving all website files into the GitHub Page folder...'
-          mv github_repo_assets/website_assets/ libraries the-nature-of-code github_page_files/
+          mv github_repo_assets/website_assets/* libraries the-nature-of-code github_page_files/
 
 
       - name: Upload directory as a GitHub Page artefact
