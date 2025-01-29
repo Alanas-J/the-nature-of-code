@@ -1,7 +1,7 @@
 
 // ==============================
 // Load in any file by specifying an import filepath here.
-import { setup, draw } from '/the-nature-of-code/chapter-0/alanas/0.1-walker.js';
+import { setup, draw } from './the-nature-of-code/chapter-0/alanas/0.2-random-number-distribution.js';
 // =============================
 
 
