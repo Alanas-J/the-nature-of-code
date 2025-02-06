@@ -4,6 +4,7 @@ export function setup() {
 
   background(255);
   stroke(255, 0 , 0);
+  strokeWeight(2);
 }
 
 let x = 100;
@@ -11,7 +12,7 @@ let y = 100;
 
 export function draw() {
   x = x + 1
-
+  
   point(x, y);
 }
 
