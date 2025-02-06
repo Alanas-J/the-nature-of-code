@@ -1,11 +1,12 @@
 
 
+let excerciseTitle;
 export function setup() {
   // Figured out that titles are addable:
-  let cpTitle = createP("0.4 Gaussian Distribution Excercise");
-  cpTitle.style("width", "640px");
-  cpTitle.style("font-size", "14pt");
-  cpTitle.style("font-weight", "bold");
+  excerciseTitle = createP("0.4 Gaussian Distribution Excercise");
+  excerciseTitle.style("width", "640px");
+  excerciseTitle.style("font-size", "14pt");
+  excerciseTitle.style("font-weight", "bold");
 
   createCanvas(640, 240);
   background(255);
@@ -20,6 +21,12 @@ export function draw() {
   const colourDeviation = randomGaussian(215, 20);
   fill(colourDeviation, 255, 80, .750);
   circle(xDeviation, yDeviation, 16);
+}
+
+
+export function cleanup() {
+  if (excerciseTitle) excerciseTitle.remove();
+  colorMode(RGB);
 }
 
 

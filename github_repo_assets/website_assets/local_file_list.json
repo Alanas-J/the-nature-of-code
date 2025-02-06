@@ -1,1 +1,5 @@
-["the-nature-of-code/chapter-0/alanas/0.1-walker.js","the-nature-of-code/chapter-0/alanas/0.2-random-number-distribution.js"]
+[
+    "the-nature-of-code/chapter-0/alanas/0.1-walker-example.js",
+    "the-nature-of-code/chapter-0/alanas/0.2-random-number-distribution-example.js",
+    "the-nature-of-code/chapter-0/alanas/0.4-gaussian-distribution.js"
+]
