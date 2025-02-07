@@ -5,7 +5,6 @@ export function setup() {
 }
   
 export function draw() {
-    background(220);
+    background(220,0,200);
 }
-  
   
