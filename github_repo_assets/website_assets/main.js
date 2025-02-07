@@ -15,6 +15,7 @@ if (isRunningLocally) {
     const response = await fetch('./file_list.json')
     excerciseList = await response.json()
 }
+excerciseList.sort();
 console.log('Excercise list:', excerciseList);
 
 // Adding p5.js libraries from the project root path
@@ -64,15 +65,20 @@ for (let excercise of excerciseList) {
     selectDropdown.appendChild(option)
 }
 
+let currentExcerciseModule;
 selectDropdown.onchange = async (e) => {
-    const excerciseStr = e.target.value;
-    console.log('Swapping to: ', excerciseStr);
-    const excerciseModule = await getExcercise(excerciseStr);
+    // Performing cleanup if a module was loaded prior + invoking cleanup if available.
+    if (currentExcerciseModule && currentExcerciseModule.module?.cleanup) {
+        currentExcerciseModule.module.cleanup();
+    }
 
     // Loading modules.
-    window.setup = excerciseModule.module.setup;
-    window.draw = excerciseModule.module.draw;
-    setup()
+    const excerciseStr = e.target.value;
+    console.log('Swapping to: ', excerciseStr);
+    currentExcerciseModule = await getExcercise(excerciseStr);
+    window.setup = currentExcerciseModule.module.setup;
+    window.draw = currentExcerciseModule.module.draw;
+    setup();
 }
 
 // Need to create a canvas on init, else p5.js won't init in the global context.
