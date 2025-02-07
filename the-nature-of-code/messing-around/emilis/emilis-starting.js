@@ -3,7 +3,8 @@ export function setup() {
   createCanvas(640, 440);
 
   background(255);
-  stroke(255, 0 , 0);
+  stroke(124, 244
+ , 124);
   strokeWeight(2);
 }
 
