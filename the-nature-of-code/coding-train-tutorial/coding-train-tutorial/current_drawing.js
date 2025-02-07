@@ -5,7 +5,7 @@ export function setup() {
 }
   
 export function draw() {
-    background(220,0,200);
+    background(220,200,0);
     
     let squareLength = 100;
     rect(150, 150, squareLength, squareLength)
@@ -17,7 +17,7 @@ export function draw() {
 
     point (150+squareLength+10,120)
 
-    line (150, 300, 250, 300)
+     rectMode (CENTER);
+    line (150, 300, 250, 300);
 }
 
-  

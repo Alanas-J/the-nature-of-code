@@ -1,7 +1,7 @@
 
 // ==============================
 // Load in any file by specifying an import filepath here.
-import { setup, draw } from './the-nature-of-code/messing-around/emilis/1.2-coding-train-learning.js';
+import { setup, draw } from './the-nature-of-code/coding-train-tutorial/coding-train-tutorial/current_drawing.js';
 // =============================
 
 
