@@ -1,7 +1,7 @@
 
 // ==============================
 // Load in any file by specifying an import filepath here.
-import { setup, draw } from './the-nature-of-code/coding-train-tutorial/coding-train-tutorial/current_drawing.js';
+import { setup, draw } from './the-nature-of-code/chapter-0/alanas/0.8-perlin-noise-map.js';
 // =============================
 
 
