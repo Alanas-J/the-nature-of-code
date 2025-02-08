@@ -5,21 +5,15 @@ export function setup() {
 }
   
 export function draw() {
-    background(220,200,0);
-    
-    let squareLength = 100;
-    rect(150, 150, squareLength, squareLength)
+    background(220,0,200);
 
-    strokeWeight(10)
-    point (140,120)
-
-    // strokeWeight(10)
-
-    point (150+squareLength+10,120)
-
-     rectMode ("center");
-    line (150, 300, 250, 300);
-
-    print(hello)
 }
 
+function draw() {
+
+
+
+noStroke()
+fill(255)
+    circle(mouseX, mouseY, 24)
+}
