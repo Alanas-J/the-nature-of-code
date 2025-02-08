@@ -17,7 +17,9 @@ export function draw() {
 
     point (150+squareLength+10,120)
 
-     rectMode (CENTER);
+     rectMode ("center");
     line (150, 300, 250, 300);
+
+    print(hello)
 }
 
