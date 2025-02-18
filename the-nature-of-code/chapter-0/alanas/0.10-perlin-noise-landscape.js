@@ -17,32 +17,30 @@ export function draw() {
   // With this implementation of perlin noise we don't sum up individual octave noisemaps.
   noiseDetail(octavesSlider.value(), falloffSlider.value());
   const zoom = zoomSlider.value();
-  const octaves = octavesSlider.value()
-  const falloff = falloffSlider.value()
 
   if(movement) offset += 1/zoom;
 
-  // const priorNoisemax = noiseMax;
+  const priorNoisemax = noiseMax;
   noiseMax = 0.1;
-
   beginShape(QUADS);
   stroke(0);
   fill(120);
 
   background(255);
-  resetMatrix();
-  translate(50, -70, -100);
+  translate(0, 0, 0);
   rotateX(1);
   rotateZ(1);
   
-  const step = 20
-  for (let x = 0; x < 200; x+=step) {
-    for (let z = 0; z < 200; z+=step) {
-      //const noiseValue = noise((x-width/2)/zoom + offset, (y-height/2)/zoom + offset)
-      //if (noiseValue > noiseMax) noiseMax = noiseValue;
+  const step = 10
+  const width = 200
+  for (let x = -width/2; x < width/2; x+=step) {
+    for (let z = -width/2; z < width/2; z+=step) {
 
+      const perlinSample = 50*noise((x-width/2)/zoom + offset, (z-height/2)/zoom + offset);
+      if (perlinSample > noiseMax) noiseMax = perlinSample;
 
-      vertex(x, z, 50*noise((x-width/2)/zoom + offset, (z-height/2)/zoom + offset));
+      fill(map(perlinSample, 0, priorNoisemax, 50, 100));
+      vertex(x, z, perlinSample);
       vertex(x+step, z, 50*noise((x+step-width/2)/zoom + offset, (z-height/2)/zoom + offset));
       vertex(x+step, z+step, 50*noise((x+step-width/2)/zoom + offset, (z+step-height/2)/zoom + offset));
       vertex(x, z+step, 50*noise((x-width/2)/zoom + offset, (z+step-height/2)/zoom + offset));
@@ -50,7 +48,7 @@ export function draw() {
   }
   endShape();
   
-  //console.log(test)
+  resetMatrix();
 }
 
 
@@ -111,7 +109,7 @@ function randomizeButtonClicked() {
   noiseSeed(random(0, 1000000));
 }
 
-let movement = false;
+let movement = true;
 let offset = 0;
 function toggleMovement() {
   movement = !movement;
